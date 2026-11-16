@@ -63,7 +63,7 @@
 ## 安装
 
 **Fedora**：从[最新 Release](https://github.com/zhenban/shuangpin-overlay/releases/latest) 下载 `.rpm` 安装。
-文件名里的 `fc44` 表示它是为 Fedora 44 构建的。
+要选和你的 Fedora 版本对应的那个：文件名里的 `fc44` 就是 Fedora 44。
 
 ```sh
 sudo dnf install ./shuangpin-overlay-*.x86_64.rpm

@@ -72,7 +72,7 @@ desktop's window effects. It also sits in the same layer as panels, and can cove
 ## Installing
 
 **Fedora**: download the `.rpm` from the [latest release](https://github.com/zhenban/shuangpin-overlay/releases/latest)
-and install it. It is built for the Fedora version in its file name (`fc44` is Fedora 44).
+and install it. Take the one for your Fedora version: `fc44` in the file name is Fedora 44.
 
 ```sh
 sudo dnf install ./shuangpin-overlay-*.x86_64.rpm

@@ -53,4 +53,4 @@ apply the decision.
 2. Give the version a section in `CHANGELOG.md`; it becomes the text of the release.
 3. Commit, then tag and push: `git tag v0.2.0 && git push origin main v0.2.0`.
 
-The workflow builds the RPM and publishes the release. It refuses a tag that does not match the version.
+The workflow builds the RPMs for the Fedora versions listed in it and publishes the release. It refuses a tag that does not match the version.
