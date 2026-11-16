@@ -23,6 +23,9 @@ public:
     virtual void drag(QMouseEvent *event) = 0;
     virtual void endDrag() = 0;
     virtual bool isDragging() const = 0;
+    /// The pointer came back onto the widget. A move done by the window
+    /// manager ends without a button release; this is the first sign of it.
+    virtual void pointerEntered() {}
 
     /// The widget changed size; keep it where it belongs.
     virtual void sizeChanged() = 0;

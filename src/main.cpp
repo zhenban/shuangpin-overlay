@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDir>
+#include <QIcon>
 #include <QLocale>
 #include <QLockFile>
 #include <QPainter>
@@ -76,6 +77,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(QStringLiteral(APP_NAME));
     QCoreApplication::setApplicationVersion(QStringLiteral(APP_VERSION));
     QGuiApplication::setDesktopFileName(QStringLiteral(APP_ID));
+    QGuiApplication::setWindowIcon(
+        QIcon::fromTheme(QStringLiteral(APP_ID), QIcon(QStringLiteral(":/icons/app.svg"))));
 
     QTranslator translator;
     if (translator.load(QLocale(), QStringLiteral(APP_NAME), QStringLiteral("_"), QStringLiteral(":/i18n")))

@@ -17,6 +17,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  appstream
 
 Requires:       hicolor-icon-theme
+Requires:       qt6-qtsvg
 Recommends:     fcitx5-chinese-addons
 
 %description

@@ -47,6 +47,7 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
     void changeEvent(QEvent *event) override;
+    void enterEvent(QEnterEvent *event) override;
 
 private:
     void onKey(const Key &key, bool pressed);
@@ -54,6 +55,7 @@ private:
     void applySize();
     void activity();
 
+    bool hasFocus() const;
     VisibilityPolicy::Facts facts() const;
     void checkVisibility();
     void setShown(bool shown);
@@ -75,6 +77,7 @@ private:
     QElapsedTimer m_clock;
     qint64 m_lastActivityMs = 0;
     bool m_menuOpen = false;
+    bool m_activeElsewhere = false; // Shuangpin was on where the typing goes
 
     bool m_shown = true;
     qreal m_visible = 1.0; // 0 hidden .. 1 shown, animated

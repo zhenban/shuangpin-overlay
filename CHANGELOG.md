@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- The chart no longer hides while it is being dragged, or when a click on it takes the keyboard focus
+- The window carries its own icon, and its title is the application's name
+
 ## 0.1.1 (2026-11-16)
 
 No change to the program.

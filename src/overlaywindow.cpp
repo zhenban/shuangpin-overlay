@@ -8,6 +8,7 @@
 
 #include <QContextMenuEvent>
 #include <QCoreApplication>
+#include <QGuiApplication>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPixmap>
@@ -29,7 +30,7 @@ OverlayWindow::OverlayWindow(const SchemeLibrary &schemes, QWidget *parent)
     , m_tracker(&m_composition)
     , m_stats(PracticeStats::defaultFilePath())
 {
-    setWindowTitle(QCoreApplication::applicationName());
+    setWindowTitle(QGuiApplication::applicationDisplayName());
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_ShowWithoutActivating);
@@ -140,12 +141,20 @@ void OverlayWindow::activity()
 
 // --- showing and hiding -----------------------------------------------------
 
+bool OverlayWindow::hasFocus() const
+{
+    return QGuiApplication::focusWindow() != nullptr;
+}
+
 VisibilityPolicy::Facts OverlayWindow::facts() const
 {
     VisibilityPolicy::Facts facts;
     facts.shown = m_shown;
     facts.keyboardAvailable = m_keyboard->isAvailable();
-    facts.shuangpinActive = m_inputMethod->isShuangpinActive();
+    // A click on the chart can move the keyboard focus to it, and then the
+    // input method reports on the chart instead of on the window being
+    // typed in. What it said before the click still stands.
+    facts.shuangpinActive = hasFocus() ? m_activeElsewhere : m_inputMethod->isShuangpinActive();
     facts.pending = m_composition.isPending();
     facts.held = m_menuOpen || underMouse() || (m_placement && m_placement->isDragging());
     facts.onlyWhenStuck = m_settings.onlyWhenStuck();
@@ -156,6 +165,8 @@ VisibilityPolicy::Facts OverlayWindow::facts() const
 
 void OverlayWindow::checkVisibility()
 {
+    if (!hasFocus())
+        m_activeElsewhere = m_inputMethod->isShuangpinActive();
     if (!m_inputMethod->isShuangpinActive())
         m_tracker.inputMethodLeft();
     setShown(VisibilityPolicy::shouldBeShown(facts()));
@@ -243,6 +254,12 @@ void OverlayWindow::mousePressEvent(QMouseEvent *event)
 void OverlayWindow::mouseMoveEvent(QMouseEvent *event)
 {
     m_placement->drag(event);
+}
+
+void OverlayWindow::enterEvent(QEnterEvent *event)
+{
+    m_placement->pointerEntered();
+    QWidget::enterEvent(event);
 }
 
 void OverlayWindow::mouseReleaseEvent(QMouseEvent *event)

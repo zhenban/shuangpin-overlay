@@ -43,15 +43,17 @@ public:
     void beginDrag(QMouseEvent *) override
     {
         if (QWindow *window = m_widget->windowHandle())
-            window->startSystemMove();
+            m_moving = window->startSystemMove();
     }
     void drag(QMouseEvent *) override {}
-    void endDrag() override {}
-    bool isDragging() const override { return false; }
+    void endDrag() override { m_moving = false; }
+    bool isDragging() const override { return m_moving; }
+    void pointerEntered() override { m_moving = false; }
     void sizeChanged() override {}
 
 private:
     QWidget *m_widget;
+    bool m_moving = false; // handed to the window manager, not heard back yet
 };
 
 #ifdef HAVE_LAYER_SHELL

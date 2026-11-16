@@ -96,6 +96,13 @@ endif()
 qt_add_translations(shuangpin-overlay
     TS_FILES translations/shuangpin-overlay_zh_CN.ts)
 
+# The icon is also built in, for desktops that have not picked up the
+# installed one yet.
+qt_add_resources(shuangpin-overlay "icon"
+    PREFIX "/icons"
+    BASE data/icons
+    FILES data/icons/app.svg)
+
 install(TARGETS shuangpin-overlay RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 configure_file(data/app.desktop.in "${APP_ID}.desktop" @ONLY)
 configure_file(data/app.metainfo.xml.in "${APP_ID}.metainfo.xml" @ONLY)
