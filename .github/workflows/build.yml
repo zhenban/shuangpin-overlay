@@ -3,6 +3,7 @@ name: Build
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   pull_request:
 
 jobs:
@@ -26,3 +27,52 @@ jobs:
         run: cmake --build build
       - name: Test
         run: ctest --test-dir build --output-on-failure
+
+  rpm:
+    name: Fedora RPM
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    steps:
+      - name: Install dependencies
+        run: >
+          dnf install -y git rpm-build cmake ninja-build gcc-c++
+          qt6-qtbase-devel qt6-qttools-devel layer-shell-qt-devel
+          desktop-file-utils appstream
+      - uses: actions/checkout@v4
+      - name: Build the packages
+        run: |
+          git config --global --add safe.directory "$PWD"
+          packaging/build-rpm.sh rpms
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rpms
+          path: rpms/*.rpm
+          if-no-files-found: error
+
+  # Pushing a tag v<version> publishes a release with the packages attached.
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build, rpm]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: rpms
+          path: rpms
+      - name: Check that the tag matches the version
+        run: |
+          version=${GITHUB_REF_NAME#v}
+          grep -q "^    VERSION $version\$" CMakeLists.txt
+          grep -q "^Version: *$version\$" packaging/shuangpin-overlay.spec
+          grep -q "^## $version " CHANGELOG.md
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=${GITHUB_REF_NAME#v}
+          awk -v v="$version" '/^## /{on = ($2 == v); next} on' CHANGELOG.md > notes.md
+          gh release create "$GITHUB_REF_NAME" rpms/*.rpm --title "$version" --notes-file notes.md

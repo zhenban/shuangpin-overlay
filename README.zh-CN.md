@@ -60,6 +60,19 @@
 不需要任何设置。代价是窗口管理器不会移动这种浮层，拖动只能由程序自己实现：没那么跟手，也没有桌面的窗口特效。
 它还和面板处在同一层级，可能盖住面板。
 
+## 安装
+
+**Fedora**：从[最新 Release](https://github.com/zhenban/shuangpin-overlay/releases/latest) 下载 `.rpm` 安装。
+文件名里的 `fc44` 表示它是为 Fedora 44 构建的。
+
+```sh
+sudo dnf install ./shuangpin-overlay-*.x86_64.rpm
+```
+
+**其他发行版**：按下文从源码构建。目前还没有别的安装包，欢迎帮忙打包。
+
+无论哪种方式，都要先设置好[键盘权限](#键盘权限与隐私)，键位图才能跟随你的输入。
+
 ## 构建
 
 Fedora：

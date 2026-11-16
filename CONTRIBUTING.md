@@ -29,6 +29,7 @@ ctest --test-dir build --output-on-failure
 | `data/schemes/` | Built-in schemes |
 | `translations/` | Interface translations |
 | `tests/` | Unit tests |
+| `packaging/` | The RPM spec, and `build-rpm.sh` to build it from the committed tree |
 | `docs/` | Pictures for the README; `docs/generate.sh` makes them from the program |
 
 Everything down to `practicestats` is in the `shuangpin-core` library. It needs no display, and it is what the
@@ -44,3 +45,12 @@ apply the decision.
   `tests/test_scheme.cpp`, and a section in `docs/schemes.md`.
 - After a change to how the chart looks, run `docs/generate.sh` and commit the pictures.
 - Nothing that was typed may be written to disk or leave the process. Statistics are aggregates only.
+
+## Releasing
+
+1. Set the version in `CMakeLists.txt` and `packaging/shuangpin-overlay.spec`, and add a `<release>` to
+   `data/app.metainfo.xml.in`.
+2. Give the version a section in `CHANGELOG.md`; it becomes the text of the release.
+3. Commit, then tag and push: `git tag v0.2.0 && git push origin main v0.2.0`.
+
+The workflow builds the RPM and publishes the release. It refuses a tag that does not match the version.

@@ -8,6 +8,9 @@
   <summary xml:lang="zh-CN">跟随输入的双拼键位图浮窗</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.zhenban">
+    <name>zhenban</name>
+  </developer>
   <description>
     <p>
       Shuangpin Overlay keeps the key chart of your Shuangpin scheme on screen while you

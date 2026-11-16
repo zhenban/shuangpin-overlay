@@ -69,6 +69,21 @@ never focused and remembering its position with no setting up. The price is that
 not move such surfaces, so dragging is done by the program itself: it is less smooth and has none of your
 desktop's window effects. It also sits in the same layer as panels, and can cover them.
 
+## Installing
+
+**Fedora**: download the `.rpm` from the [latest release](https://github.com/zhenban/shuangpin-overlay/releases/latest)
+and install it. It is built for the Fedora version in its file name (`fc44` is Fedora 44).
+
+```sh
+sudo dnf install ./shuangpin-overlay-*.x86_64.rpm
+```
+
+**Other distributions**: build it from source as below. There are no packages yet; a package for yours is
+welcome.
+
+Either way, [keyboard access](#keyboard-access-and-privacy) has to be set up before the chart can follow
+your typing.
+
 ## Building
 
 Fedora:
