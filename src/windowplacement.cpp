@@ -23,7 +23,9 @@
 
 namespace {
 
+#ifdef HAVE_LAYER_SHELL
 Q_LOGGING_CATEGORY(lcPlacement, "shuangpin.placement", QtInfoMsg)
+#endif
 
 /// An ordinary window, the default. The window manager moves it, with
 /// whatever effects the desktop has, and decides whether it stays above
