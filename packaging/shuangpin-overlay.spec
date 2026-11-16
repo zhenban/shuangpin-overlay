@@ -1,5 +1,5 @@
 Name:           shuangpin-overlay
-Version:        0.1.0
+Version:        0.1.1
 Release:        1%{?dist}
 Summary:        Floating Shuangpin key chart that follows what you type
 
@@ -59,5 +59,8 @@ appstreamcli validate --no-net %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Mon Nov 16 2026 zhenban - 0.1.1-1
+- Packages for Fedora 44 and 45
+
 * Mon Nov 16 2026 zhenban - 0.1.0-1
 - First version

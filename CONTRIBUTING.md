@@ -49,7 +49,7 @@ apply the decision.
 ## Releasing
 
 1. Set the version in `CMakeLists.txt` and `packaging/shuangpin-overlay.spec`, and add a `<release>` to
-   `data/app.metainfo.xml.in`.
+   `data/app.metainfo.xml.in` and a `%changelog` entry to the spec.
 2. Give the version a section in `CHANGELOG.md`; it becomes the text of the release.
 3. Commit, then tag and push: `git tag v0.2.0 && git push origin main v0.2.0`.
 

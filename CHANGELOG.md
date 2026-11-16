@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 (2026-11-16)
+
+No change to the program.
+
+- Packages for Fedora 44 and 45. The 0.1.0 release only had one for Fedora 45.
+- Fixed the build without LayerShellQt.
+
 ## 0.1.0 (2026-11-16)
 
 First version.

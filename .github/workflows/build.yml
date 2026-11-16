@@ -83,7 +83,7 @@ jobs:
           awk -v v="$version" '/^## /{on = ($2 == v); next} on' CHANGELOG.md > notes.md
           if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
               gh release edit "$GITHUB_REF_NAME" --title "$version" --notes-file notes.md
-              gh release upload "$GITHUB_REF_NAME" rpms/*.rpm --clobber
+              gh release upload "$GITHUB_REF_NAME" rpms/*.x86_64.rpm --clobber
           else
-              gh release create "$GITHUB_REF_NAME" rpms/*.rpm --title "$version" --notes-file notes.md
+              gh release create "$GITHUB_REF_NAME" rpms/*.x86_64.rpm --title "$version" --notes-file notes.md
           fi
