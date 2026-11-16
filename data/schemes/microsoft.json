@@ -1,0 +1,48 @@
+{
+  "id": "microsoft",
+  "name": {
+    "en": "Microsoft",
+    "zh": "微软双拼"
+  },
+  "fcitxProfile": "MS",
+  "initials": {
+    "ch": "i",
+    "sh": "u",
+    "zh": "v"
+  },
+  "finals": {
+    "ai": "l",
+    "an": "j",
+    "ang": "h",
+    "ao": "k",
+    "ei": "z",
+    "en": "f",
+    "eng": "g",
+    "er": "r",
+    "ia": "w",
+    "ian": "m",
+    "iang": "d",
+    "iao": "c",
+    "ie": "x",
+    "in": "n",
+    "ing": ";",
+    "iong": "s",
+    "iu": "q",
+    "ong": "s",
+    "ou": "b",
+    "ua": "w",
+    "uai": "y",
+    "uan": "r",
+    "uang": "d",
+    "ue": "t",
+    "ui": "v",
+    "un": "p",
+    "uo": "o",
+    "ü": "y",
+    "üe": "v"
+  },
+  "zeroInitial": {
+    "keys": "o",
+    "byFirstLetter": false
+  }
+}

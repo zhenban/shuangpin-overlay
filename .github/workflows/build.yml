@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Fedora, layer shell ${{ matrix.layer_shell }}
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        layer_shell: ["ON", "OFF"]
+    steps:
+      - name: Install dependencies
+        run: >
+          dnf install -y git cmake ninja-build gcc-c++
+          qt6-qtbase-devel qt6-qttools-devel layer-shell-qt-devel
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -B build -G Ninja -DWITH_LAYER_SHELL=${{ matrix.layer_shell }} -DCMAKE_COMPILE_WARNING_AS_ERROR=ON
+      - name: Build
+        run: cmake --build build
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

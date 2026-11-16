@@ -1,0 +1,48 @@
+{
+  "id": "guobiao",
+  "name": {
+    "en": "Guobiao",
+    "zh": "国标双拼"
+  },
+  "fcitxProfile": "GB",
+  "initials": {
+    "ch": "i",
+    "sh": "u",
+    "zh": "v"
+  },
+  "finals": {
+    "ai": "k",
+    "an": "f",
+    "ang": "g",
+    "ao": "c",
+    "ei": "b",
+    "en": "r",
+    "eng": "h",
+    "er": "l",
+    "ia": "q",
+    "ian": "d",
+    "iang": "n",
+    "iao": "m",
+    "ie": "t",
+    "in": "l",
+    "ing": "j",
+    "iong": "s",
+    "iu": "y",
+    "ong": "s",
+    "ou": "p",
+    "ua": "q",
+    "uai": "y",
+    "uan": "w",
+    "uang": "n",
+    "ue": "x",
+    "ui": "v",
+    "un": "z",
+    "uo": "o",
+    "ü": "v",
+    "üe": "x"
+  },
+  "zeroInitial": {
+    "keys": "a",
+    "byFirstLetter": false
+  }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC0-1.0 -->
+<component type="desktop-application">
+  <id>@APP_ID@</id>
+  <name>Shuangpin Overlay</name>
+  <name xml:lang="zh-CN">双拼键位浮窗</name>
+  <summary>A floating Shuangpin key chart that follows what you type</summary>
+  <summary xml:lang="zh-CN">跟随输入的双拼键位图浮窗</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <description>
+    <p>
+      Shuangpin Overlay keeps the key chart of your Shuangpin scheme on screen while you
+      learn it. It lights up the keys you press, narrows the chart down to the finals that
+      can follow the initial you just typed, and gets out of the way when you stop typing.
+    </p>
+    <ul>
+      <li>Eight schemes, picked automatically from Fcitx5's setting</li>
+      <li>Shows only while a Shuangpin input method is active</li>
+      <li>Lists the finals you are slowest at and the keys you mix up</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">@APP_ID@.desktop</launchable>
+  <url type="homepage">@PROJECT_HOMEPAGE_URL@</url>
+  <url type="bugtracker">@PROJECT_HOMEPAGE_URL@/issues</url>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="@PROJECT_VERSION@" date="2026-11-16"/>
+  </releases>
+</component>

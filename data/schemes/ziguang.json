@@ -1,0 +1,48 @@
+{
+  "id": "ziguang",
+  "name": {
+    "en": "Ziguang",
+    "zh": "紫光双拼"
+  },
+  "fcitxProfile": "Ziguang",
+  "initials": {
+    "ch": "a",
+    "sh": "i",
+    "zh": "u"
+  },
+  "finals": {
+    "ai": "p",
+    "an": "r",
+    "ang": "s",
+    "ao": "q",
+    "ei": "k",
+    "en": "w",
+    "eng": "t",
+    "er": "j",
+    "ia": "x",
+    "ian": "f",
+    "iang": "g",
+    "iao": "b",
+    "ie": "d",
+    "in": "y",
+    "ing": ";",
+    "iong": "h",
+    "iu": "j",
+    "ong": "h",
+    "ou": "z",
+    "ua": "x",
+    "uai": "y",
+    "uan": "l",
+    "uang": "g",
+    "ue": "n",
+    "ui": "n",
+    "un": "m",
+    "uo": "o",
+    "ü": "v",
+    "üe": "n"
+  },
+  "zeroInitial": {
+    "keys": "o",
+    "byFirstLetter": false
+  }
+}

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Shuangpin Overlay
+Name[zh_CN]=双拼键位浮窗
+Comment=A floating Shuangpin key chart that follows what you type
+Comment[zh_CN]=跟随输入的双拼键位图浮窗
+Exec=shuangpin-overlay
+Icon=@APP_ID@
+Categories=Utility;Education;
+Keywords=shuangpin;pinyin;chinese;input;双拼;小鹤;拼音;
+Terminal=false

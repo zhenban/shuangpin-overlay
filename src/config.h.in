@@ -1,0 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+#pragma once
+
+#define APP_ID "@APP_ID@"
+#define APP_NAME "@PROJECT_NAME@"
+#define APP_VERSION "@PROJECT_VERSION@"
+#cmakedefine HAVE_LAYER_SHELL

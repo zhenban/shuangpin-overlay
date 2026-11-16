@@ -1,0 +1,23 @@
+# Qt/KDE flavoured: four spaces, braces on their own line for functions and
+# types, attached everywhere else.
+BasedOnStyle: WebKit
+Standard: c++20
+ColumnLimit: 120
+IndentWidth: 4
+AccessModifierOffset: -4
+NamespaceIndentation: None
+PointerAlignment: Right
+AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true
+  AfterFunction: true
+  AfterStruct: false
+  AfterNamespace: false
+BreakConstructorInitializers: BeforeComma
+SortIncludes: CaseSensitive
+IncludeBlocks: Preserve
+Cpp11BracedListStyle: true
+SpaceBeforeCpp11BracedList: false

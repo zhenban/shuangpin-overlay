@@ -1,0 +1,48 @@
+{
+  "id": "abc",
+  "name": {
+    "en": "Intelligent ABC",
+    "zh": "智能 ABC"
+  },
+  "fcitxProfile": "ABC",
+  "initials": {
+    "ch": "e",
+    "sh": "v",
+    "zh": "a"
+  },
+  "finals": {
+    "ai": "l",
+    "an": "j",
+    "ang": "h",
+    "ao": "k",
+    "ei": "q",
+    "en": "f",
+    "eng": "g",
+    "er": "r",
+    "ia": "d",
+    "ian": "w",
+    "iang": "t",
+    "iao": "z",
+    "ie": "x",
+    "in": "c",
+    "ing": "y",
+    "iong": "s",
+    "iu": "r",
+    "ong": "s",
+    "ou": "b",
+    "ua": "d",
+    "uai": "c",
+    "uan": "p",
+    "uang": "t",
+    "ue": "m",
+    "ui": "m",
+    "un": "n",
+    "uo": "o",
+    "ü": "v",
+    "üe": "m"
+  },
+  "zeroInitial": {
+    "keys": "o",
+    "byFirstLetter": false
+  }
+}

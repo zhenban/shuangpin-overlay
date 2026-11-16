@@ -1,0 +1,48 @@
+{
+  "id": "pinyinjiajia",
+  "name": {
+    "en": "Pinyin Jiajia",
+    "zh": "拼音加加"
+  },
+  "fcitxProfile": "PinyinJiajia",
+  "initials": {
+    "ch": "u",
+    "sh": "i",
+    "zh": "v"
+  },
+  "finals": {
+    "ai": "s",
+    "an": "f",
+    "ang": "g",
+    "ao": "d",
+    "ei": "w",
+    "en": "r",
+    "eng": "t",
+    "er": "q",
+    "ia": "b",
+    "ian": "j",
+    "iang": "h",
+    "iao": "k",
+    "ie": "m",
+    "in": "l",
+    "ing": "q",
+    "iong": "y",
+    "iu": "n",
+    "ong": "y",
+    "ou": "p",
+    "ua": "b",
+    "uai": "x",
+    "uan": "c",
+    "uang": "h",
+    "ue": "x",
+    "ui": "v",
+    "un": "z",
+    "uo": "o",
+    "ü": "v",
+    "üe": "x"
+  },
+  "zeroInitial": {
+    "keys": "o",
+    "byFirstLetter": true
+  }
+}
