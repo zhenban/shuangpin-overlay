@@ -1,5 +1,5 @@
 Name:           shuangpin-overlay
-Version:        0.1.2
+Version:        0.1.3
 Release:        1%{?dist}
 Summary:        Floating Shuangpin key chart that follows what you type
 
@@ -60,6 +60,10 @@ appstreamcli validate --no-net %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Fri Nov 20 2026 zhenban - 0.1.3-1
+- Smooth dragging in overlay mode
+- The chart no longer hides while it is handled
+
 * Mon Nov 16 2026 zhenban - 0.1.2-1
 - The chart no longer hides while it is dragged
 - Built-in window icon

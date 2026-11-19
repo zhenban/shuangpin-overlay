@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.3 (2026-11-20)
 
 - Overlay mode: dragging is smooth, at the display's frame rate
 - The chart no longer hides while it is handled, or the moment it is let go; catching it as it fades out

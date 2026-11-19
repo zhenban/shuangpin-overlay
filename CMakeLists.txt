@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.21)
 
 project(shuangpin-overlay
-    VERSION 0.1.2
+    VERSION 0.1.3
     DESCRIPTION "A floating Shuangpin key chart that follows what you type"
     HOMEPAGE_URL "https://github.com/zhenban/shuangpin-overlay"
     LANGUAGES CXX)
