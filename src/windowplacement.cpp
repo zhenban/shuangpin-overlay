@@ -4,7 +4,8 @@
 #include "config.h"
 #include "settings.h"
 
-#include <QElapsedTimer>
+#include <QPixmap>
+#include <QStyleHints>
 #include <QGuiApplication>
 #include <QLoggingCategory>
 #include <QMouseEvent>
@@ -59,10 +60,6 @@ private:
 #ifdef HAVE_LAYER_SHELL
 
 constexpr int kInitialBottomMargin = 80;
-// After the surface is told to move, pointer positions keep arriving
-// relative to where it was until the compositor has acted on it. Acting on
-// those would add the same distance again and again.
-constexpr int kMoveSettleMs = 32;
 
 /// Finds out how much of the screen panels leave free. Qt cannot say on
 /// Wayland, but a surface anchored to all four edges is given exactly that
@@ -104,6 +101,72 @@ private:
     std::function<void(QSize)> m_report;
 };
 
+/// Shows the chart while it is dragged. Pointer positions arrive relative
+/// to the surface under the pointer, and a layer-shell surface moves only
+/// after a round trip to the compositor; dragging the chart itself mixes up
+/// old and new positions. So the chart stays put, invisible, keeping the
+/// pointer and a fixed frame of reference, while this surface, which takes
+/// no input, shows a picture of it wherever it is dragged.
+///
+/// It is made once and kept, transparent between drags: the compositor
+/// animates surfaces that appear and disappear.
+class DragStandIn : public QWidget
+{
+public:
+    explicit DragStandIn(QSize size)
+    {
+        using LayerShellQt::Window;
+        setWindowFlags(Qt::FramelessWindowHint | Qt::WindowTransparentForInput | Qt::WindowDoesNotAcceptFocus);
+        setAttribute(Qt::WA_TranslucentBackground);
+        setAttribute(Qt::WA_ShowWithoutActivating);
+        setFixedSize(size);
+        winId(); // create the QWindow
+        m_layer = Window::get(windowHandle());
+        m_layer->setScope(QStringLiteral(APP_NAME "-drag"));
+        m_layer->setLayer(Window::LayerTop);
+        m_layer->setKeyboardInteractivity(Window::KeyboardInteractivityNone);
+        m_layer->setAnchors(Window::Anchors(Window::AnchorTop | Window::AnchorLeft));
+        m_layer->setExclusiveZone(0); // the same area the chart's margins count in
+        show();
+    }
+
+    /// Shows @p picture at @p position at once.
+    void showPicture(const QPixmap &picture, QPoint position)
+    {
+        m_picture = picture;
+        m_layer->setMargins(QMargins(position.x(), position.y(), 0, 0));
+        repaint();
+    }
+
+    /// Moves the picture; the new margins go with the next frame.
+    void moveTo(QPoint position)
+    {
+        m_layer->setMargins(QMargins(position.x(), position.y(), 0, 0));
+        update();
+    }
+
+    /// Becomes transparent at once.
+    void clear()
+    {
+        m_picture = QPixmap();
+        repaint();
+    }
+
+protected:
+    void paintEvent(QPaintEvent *) override
+    {
+        QPainter painter(this);
+        painter.setCompositionMode(QPainter::CompositionMode_Source);
+        painter.fillRect(QRect(QPoint(), size()), Qt::transparent);
+        if (!m_picture.isNull())
+            painter.drawPixmap(0, 0, m_picture);
+    }
+
+private:
+    LayerShellQt::Window *m_layer = nullptr;
+    QPixmap m_picture;
+};
+
 /// A layer-shell surface: above ordinary windows, clear of panels, never
 /// focused, and placed by us, so its position can be remembered.
 class LayerShellPlacement : public WindowPlacement
@@ -123,6 +186,10 @@ public:
         m_layer->setExclusiveZone(0); // margins count from the area panels leave free
         place();
 
+        // Made now, so that the compositor's animation for a new surface
+        // plays on a transparent pixel and not on the first drag.
+        m_standIn = std::make_unique<DragStandIn>(widget->size());
+
         measureArea();
         QObject::connect(widget->screen(), &QScreen::geometryChanged, widget, [this] { measureArea(); });
     }
@@ -131,22 +198,29 @@ public:
     {
         m_dragging = true;
         m_dragOrigin = event->position();
-        m_sinceMove.invalidate();
+        m_dragTarget = m_position;
     }
 
     void drag(QMouseEvent *event) override
     {
         if (!m_dragging)
             return;
-        if (m_sinceMove.isValid() && m_sinceMove.elapsed() < kMoveSettleMs)
-            return; // this position may still be relative to the old place
-        // The surface follows the pointer, so the pointer's position inside
-        // it differs from where the drag began by the distance still to go.
+        // The chart does not move during the drag, so every position is
+        // relative to where it began.
         const QPoint delta = (event->position() - m_dragOrigin).toPoint();
-        if (delta.isNull())
-            return;
-        moveTo(m_position + delta);
-        m_sinceMove.start();
+        if (!m_moved && delta.manhattanLength() < QGuiApplication::styleHints()->startDragDistance())
+            return; // a click, not a drag
+        m_dragTarget = bounded(m_position + delta);
+        if (!m_moved) {
+            // Swap the chart for its picture: both at once, so that neither
+            // a gap nor both of them show.
+            m_moved = true;
+            m_standIn->showPicture(m_widget->grab(), m_dragTarget);
+            m_standingIn = true;
+            m_widget->repaint();
+        } else {
+            m_standIn->moveTo(m_dragTarget);
+        }
     }
 
     void endDrag() override
@@ -154,12 +228,25 @@ public:
         if (!m_dragging)
             return;
         m_dragging = false;
+        if (m_moved) {
+            // And back, the chart now in the new place.
+            m_moved = false;
+            m_standingIn = false;
+            moveTo(m_dragTarget);
+            m_widget->repaint();
+            m_standIn->clear();
+        }
         m_settings->setPosition(m_position);
     }
 
     bool isDragging() const override { return m_dragging; }
+    bool drawsElsewhere() const override { return m_standingIn; }
 
-    void sizeChanged() override { moveTo(m_position); }
+    void sizeChanged() override
+    {
+        m_standIn->setFixedSize(m_widget->size());
+        moveTo(m_position);
+    }
 
 private:
     /// Where the user left it, or bottom centre the first time.
@@ -180,11 +267,17 @@ private:
         }));
     }
 
-    /// Moves the surface, keeping all of it inside the free area.
+    /// The nearest position that keeps all of the chart inside the free area.
+    QPoint bounded(QPoint position) const
+    {
+        return QPoint(qBound(0, position.x(), qMax(0, m_area.width() - m_widget->width())),
+                      qBound(0, position.y(), qMax(0, m_area.height() - m_widget->height())));
+    }
+
+    /// Moves the surface.
     void moveTo(QPoint position)
     {
-        position.setX(qBound(0, position.x(), qMax(0, m_area.width() - m_widget->width())));
-        position.setY(qBound(0, position.y(), qMax(0, m_area.height() - m_widget->height())));
+        position = bounded(position);
         m_position = position;
         m_layer->setMargins(QMargins(position.x(), position.y(), 0, 0));
         m_widget->update(); // the new margins travel with the next frame
@@ -198,7 +291,10 @@ private:
     QPoint m_position;
     bool m_dragging = false;
     QPointF m_dragOrigin;
-    QElapsedTimer m_sinceMove;
+    QPoint m_dragTarget;
+    bool m_moved = false; // this press has become a drag
+    std::unique_ptr<DragStandIn> m_standIn;
+    bool m_standingIn = false; // the stand-in is on screen; the chart draws nothing
 };
 
 /// The layer-shell handle for the widget, or null where the protocol is not

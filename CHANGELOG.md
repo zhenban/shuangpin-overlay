@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Overlay mode: dragging is smooth, at the display's frame rate
+- The chart no longer hides while it is handled, or the moment it is let go; catching it as it fades out
+  brings it back
+- README: keeping the chart on every virtual desktop in KDE Plasma
+
 ## 0.1.2 (2026-11-16)
 
 - The chart no longer hides while it is being dragged, or when a click on it takes the keyboard focus

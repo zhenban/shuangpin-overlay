@@ -48,6 +48,7 @@ protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
     void changeEvent(QEvent *event) override;
     void enterEvent(QEnterEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 private:
     void onKey(const Key &key, bool pressed);

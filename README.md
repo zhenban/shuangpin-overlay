@@ -60,6 +60,7 @@ Only KDE Plasma 6 on Wayland has been tested so far.
    - *Accept focus*: Force, No. Without it, clicking the chart takes the keyboard away from what you were
      typing in.
    - *Position*: Remember
+   - *Virtual Desktop*: Force, All Desktops. Without it, the chart stays behind when you switch desktops.
    - *Skip taskbar*: Force, Yes (optional)
 
 ### Overlay mode

@@ -215,7 +215,7 @@ ChartState OverlayWindow::chartState() const
 void OverlayWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    if (m_visible <= 0.0) {
+    if (m_visible <= 0.0 || (m_placement && m_placement->drawsElsewhere())) {
         painter.setCompositionMode(QPainter::CompositionMode_Source);
         painter.fillRect(rect(), Qt::transparent);
         return;
@@ -245,31 +245,48 @@ void OverlayWindow::changeEvent(QEvent *event)
 
 // --- mouse ------------------------------------------------------------------
 
+// Handling the chart counts as using it: the idle time starts again, so it
+// does not vanish in the hand or the moment it is let go.
+
 void OverlayWindow::mousePressEvent(QMouseEvent *event)
 {
+    activity();
+    // Caught while fading out: it takes clicks until it is gone, so it can
+    // be picked up then, and should come back.
+    setShown(true);
     if (event->button() == Qt::LeftButton)
         m_placement->beginDrag(event);
 }
 
 void OverlayWindow::mouseMoveEvent(QMouseEvent *event)
 {
+    activity();
     m_placement->drag(event);
 }
 
 void OverlayWindow::enterEvent(QEnterEvent *event)
 {
+    activity(); // also the end of a move done by the window manager
     m_placement->pointerEntered();
     QWidget::enterEvent(event);
 }
 
+void OverlayWindow::leaveEvent(QEvent *event)
+{
+    activity(); // also the start of a move done by the window manager
+    QWidget::leaveEvent(event);
+}
+
 void OverlayWindow::mouseReleaseEvent(QMouseEvent *event)
 {
+    activity();
     if (event->button() == Qt::LeftButton)
         m_placement->endDrag();
 }
 
 void OverlayWindow::wheelEvent(QWheelEvent *event)
 {
+    activity();
     const int steps = event->angleDelta().y() > 0 ? 1 : -1;
     if (event->modifiers() & Qt::ControlModifier) {
         m_settings.stepScale(steps);

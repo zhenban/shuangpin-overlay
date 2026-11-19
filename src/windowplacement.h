@@ -26,6 +26,9 @@ public:
     /// The pointer came back onto the widget. A move done by the window
     /// manager ends without a button release; this is the first sign of it.
     virtual void pointerEntered() {}
+    /// True while something else shows the chart, and the widget should
+    /// draw nothing.
+    virtual bool drawsElsewhere() const { return false; }
 
     /// The widget changed size; keep it where it belongs.
     virtual void sizeChanged() = 0;
